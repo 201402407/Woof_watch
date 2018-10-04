@@ -1,0 +1,8 @@
+# ninja log v5
+18	889	0	res/edje/woof.edj	140e62a5397ce950
+23	1987	0	src/wooftest.o	89e743e8cb30e99d
+2	2151	0	src/mainpage.o	c2410759644d67a5
+2151	2465	0	woof	f23a6c3cf06b027f
+5	856	0	src/woof.o	9361872ba006c9e1
+11	869	0	src/mainpage.o	c2410759644d67a5
+869	1118	0	woof	c40c3eb82622bdcd
