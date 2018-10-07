@@ -36,6 +36,6 @@ typedef struct appdata{
 } appdata_s;
 
 void _create_main_layout_start(void *data, Evas_Object *obj, void *event_info);
-
+void naviframe_pop_cb(void *data, Evas_Object *obj, void *event_info);
 
 #endif /* __woof_H__ */

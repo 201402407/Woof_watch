@@ -55,6 +55,7 @@ _on_index_mouse_down_cb(void *data, Evas *e, Evas_Object *o, void *event_info)
 {
 	page_data *pd = (page_data *)data;
 
+	dlog_print(DLOG_INFO, LOG_TAG, " # mouse down cb ! ");
 	/* Keep the last index item active and save the selected index item */
 	if (!pd->last_it) return;
 
@@ -66,6 +67,7 @@ _on_index_mouse_down_cb(void *data, Evas *e, Evas_Object *o, void *event_info)
 static void
 _on_index_mouse_up_cb(void *data, Evas *e, Evas_Object *o, void *event_info)
 {
+	dlog_print(DLOG_INFO, LOG_TAG, " # mouse up cb ! ");
 	page_data *pd = (page_data *)data;
 
 	/* Keep the last index item active and move to the page of the currently selected index item */
@@ -84,7 +86,7 @@ static void
 _on_index_mouse_move_cb(void *data, Evas *e, Evas_Object *o, void *event_info)
 {
 	page_data *pd = (page_data *)data;
-
+	dlog_print(DLOG_INFO, LOG_TAG, " # mouse move cb ! ");
 	/* Keep the last index item active and save the currently selected index item */
 	if (!pd->last_it) return;
 
@@ -96,6 +98,7 @@ _on_index_mouse_move_cb(void *data, Evas *e, Evas_Object *o, void *event_info)
 static void
 _index_refresh(void *data)
 {
+	dlog_print(DLOG_INFO, LOG_TAG, " # index refresh ! ");
 	int i, num_index;
 	page_data *pd = (page_data *)data;
 
@@ -129,6 +132,7 @@ _index_refresh(void *data)
 static void
 _index_sync(void *data)
 {
+	dlog_print(DLOG_INFO, LOG_TAG, " # index sync ! ");
 	page_data *pd = (page_data *)data;
 	Elm_Object_Item *it;
 	it = elm_index_item_find(pd->index, (void *)pd->cur_page);
@@ -246,7 +250,7 @@ _create_main_layout(void *data, char *layout_file, char *index_style, char it_st
 	/* 먼진 모르겠지만 Box 오브젝트를 통해 해당 화면을 가운데 정렬을 해준다는거 같아 */
 	left_right_rect = evas_object_rectangle_add(evas_object_evas_get(box));
 	elm_box_pack_end(box, left_right_rect);
-	dlog_print(DLOG_INFO, LOG_TAG, "5");
+
 	/* Create Pages */
 		if (even_num)
 			max_items = NUM_INDEX_CIRCLE_EVEN;
@@ -330,6 +334,7 @@ _create_main_layout(void *data, char *layout_file, char *index_style, char it_st
 	elm_naviframe_item_title_enabled_set(nf_it, EINA_FALSE, EINA_FALSE);
 }
 
+/*
 // 메인 화면 만드는 시작 함수.
 void
 _create_main_layout_start(void *data)
@@ -338,9 +343,10 @@ _create_main_layout_start(void *data)
 	dlog_print(DLOG_INFO, LOG_TAG, " # create main layout start ");
 	char it_style[NUM_INDEX][20] = {
 			"item/odd_8",
-			"item/odd_9",
 			"item/odd_10",
+			"item/odd_12",
     };
 
 	_create_main_layout(ad, MAIN_LAYOUT, "circle", it_style, EINA_FALSE);
 }
+*/

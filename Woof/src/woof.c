@@ -15,8 +15,9 @@ layout_back_cb(void *data, Evas_Object *obj, void *event_info)
 }
 
 /* naviframe의 최상단 stack item pop 시키기. */
-static void
+void
 naviframe_pop_cb(void *data, Evas_Object *obj, void *event_info) {
+	dlog_print(DLOG_INFO, LOG_TAG, " # naviframe pop cb ");
     Evas_Object *naviframe = data;
     elm_naviframe_item_pop(naviframe);
 }
@@ -130,6 +131,7 @@ create_base_gui(appdata_s *ad)
 	ad->layout = elm_layout_add(ad->conform);
 	evas_object_size_hint_weight_set(ad->layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
 	elm_layout_theme_set(ad->layout, "layout", "application", "default");
+	eext_object_event_callback_add(ad->layout, EEXT_CALLBACK_BACK, layout_back_cb, ad);
 	evas_object_show(ad->layout);
 
 	elm_object_content_set(ad->conform, ad->layout);
