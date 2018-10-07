@@ -22,10 +22,11 @@ naviframe_pop_cb(void *data, Evas_Object *obj, void *event_info) {
 }
 
 /* 두 번째 sub layout 생성 함수 */
+/*
 static void
 create_sub_layout(void *data, Evas_Object *obj, void *event_info) {
     Evas_Object *naviframe = data;
-    /* sub layout */
+
     Evas_Object* sub_layout;
     sub_layout = elm_layout_add(naviframe);
     elm_layout_file_set(sub_layout, EDJ_ABSOLUTE_FILE, SUB_LAYOUT);
@@ -44,17 +45,17 @@ create_sub_layout(void *data, Evas_Object *obj, void *event_info) {
     evas_object_show(sub_button);
     elm_naviframe_item_push(naviframe, NULL, NULL, NULL, sub_layout, "empty");
 }
-
+*/
 
 static Eina_Bool
 _timeout(void *data EINA_UNUSED)
 {
-	appdata_s *ad = data;
+	appdata_s *ad = (appdata_s *)data;
 	evas_object_hide(ad->splash_layout);
 	elm_naviframe_item_pop(ad->splash_layout);
 	dlog_print(DLOG_INFO, LOG_TAG, "# timeout ");
 	/* Main Layout */
-	_create_main_layout_start(ad);
+	_create_main_layout_start(ad, NULL, NULL);
 	ad->timer1 = NULL;
 	return ECORE_CALLBACK_CANCEL;
 }
@@ -97,6 +98,12 @@ void show_message_popup(Evas_Object* obj, char *message)
 static void
 create_base_gui(appdata_s *ad)
 {
+	/*
+		 * Widget Tree
+		 * Window
+		 *  - conform
+		 *   - layout main
+		 *    - naviframe */
 
 	/* Window */
 	ad->win = elm_win_util_standard_add(PACKAGE, PACKAGE);
@@ -109,8 +116,52 @@ create_base_gui(appdata_s *ad)
 	}
 
 	evas_object_smart_callback_add(ad->win, "delete,request", win_delete_request_cb, NULL);
-
+	dlog_print(DLOG_INFO, LOG_TAG, "# window setting success. ");
 	/* Conformant */
+	ad->conform = elm_conformant_add(ad->win);
+	evas_object_size_hint_weight_set(ad->conform, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+	elm_win_resize_object_add(ad->win, ad->conform);
+	evas_object_show(ad->conform);
+	dlog_print(DLOG_INFO, LOG_TAG, "# conformant setting success. ");
+	// Eext Circle Surface Creation
+	ad->circle_surface = eext_circle_surface_conformant_add(ad->conform);
+	dlog_print(DLOG_INFO, LOG_TAG, "# eext circle surface setting success. ");
+	/* Base Layout */
+	ad->layout = elm_layout_add(ad->conform);
+	evas_object_size_hint_weight_set(ad->layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+	elm_layout_theme_set(ad->layout, "layout", "application", "default");
+	evas_object_show(ad->layout);
+
+	elm_object_content_set(ad->conform, ad->layout);
+	dlog_print(DLOG_INFO, LOG_TAG, "# base layout setting success. ");
+	/* naviframe */
+	ad->naviframe = elm_naviframe_add(ad->layout);
+	dlog_print(DLOG_INFO, LOG_TAG, "# 1 ");
+	evas_object_size_hint_weight_set(ad->naviframe, EVAS_HINT_EXPAND,EVAS_HINT_EXPAND);
+	dlog_print(DLOG_INFO, LOG_TAG, "# 2 ");
+
+	dlog_print(DLOG_INFO, LOG_TAG, "# 3 ");
+	elm_object_part_content_set(ad->layout, "elm.swallow.content", ad->naviframe);
+	//evas_object_show(ad->naviframe);
+	dlog_print(DLOG_INFO, LOG_TAG, "# naviframe setting success. ");
+	/* Splash */
+	start_splash(ad);
+
+	/* Window */
+		/*
+	ad->win = elm_win_util_standard_add(PACKAGE, PACKAGE);
+	elm_win_conformant_set(ad->win, EINA_TRUE);
+	elm_win_autodel_set(ad->win, EINA_TRUE);
+
+	if (elm_win_wm_rotation_supported_get(ad->win)) {
+		int rots[4] = { 0, 90, 180, 270 };
+		elm_win_wm_rotation_available_rotations_set(ad->win, (const int *)(&rots), 4);
+	}
+
+	evas_object_smart_callback_add(ad->win, "delete,request", win_delete_request_cb, NULL);
+*/
+	/* Conformant */
+	/*
 	ad->conform = elm_conformant_add(ad->win);
 	elm_win_indicator_mode_set(ad->win, ELM_WIN_INDICATOR_SHOW);
 	elm_win_indicator_opacity_set(ad->win, ELM_WIN_INDICATOR_OPAQUE);
@@ -118,15 +169,7 @@ create_base_gui(appdata_s *ad)
 	elm_win_resize_object_add(ad->win, ad->conform);
 	evas_object_show(ad->conform);
 	dlog_print(DLOG_INFO, LOG_TAG, "gui zzzz");
-
-	/* naviframe */
-	ad->naviframe = elm_naviframe_add(ad->conform);
-	evas_object_size_hint_weight_set(ad->naviframe, EVAS_HINT_EXPAND,EVAS_HINT_EXPAND);
-	elm_object_content_set(ad->conform, ad->naviframe);
-	evas_object_show(ad->naviframe);
-
-	/* Splash */
-	start_splash(ad);
+*/
 
 	/* Bluetooth Image Layout */
 	//ad->bluetooth_image = elm_layout_add(ad->naviframe);
