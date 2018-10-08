@@ -198,6 +198,9 @@ _scroll(void *data, Evas_Object *obj, void *ei)
 static void
 _main_image1_cb(void *data , Evas_Object *obj, void *event_info) {
 	dlog_print(DLOG_INFO, LOG_TAG, " # main layout image1 callback");
+	appdata_s *ad = data;
+	_popup_small_process_loading(ad, NULL, NULL);
+
 }
 static void
 _main_image2_cb(void *data , Evas_Object *obj, void *event_info) {
@@ -213,7 +216,7 @@ _main_image4_cb(void *data , Evas_Object *obj, void *event_info) {
 }
 // Main Layout 만드는 핵심 함수.
 static void
-_create_view_layout(Evas_Object *parent, char *layout_file, char *index_style, char it_style[][20], Eina_Bool even_num)
+_create_view_layout(void *data, char *layout_file, char *index_style, char it_style[][20], Eina_Bool even_num)
 {
 	dlog_print(DLOG_INFO, LOG_TAG, " # create main layout view .. ");
 	Evas_Object *layout, *scroller, *box, *left_right_rect, *page_layout, *index;
@@ -222,12 +225,14 @@ _create_view_layout(Evas_Object *parent, char *layout_file, char *index_style, c
 	char img_path[PATH_MAX];
 	int i, max_items;
 
+	appdata_s *ad = data;
+
 	// page_data 구조체 생성(calloc으로 메모리 동적 할당 = calloc은 내부의 값 초기화 / malloc은 내부 값 초기화 X)
 	page_data *pd = calloc(1, sizeof(page_data));
 
 	/* Create Layout */
 	/* 우선 기본 레이아웃을 생성하고 EDJ 파일을 입힌다. */
-	layout = elm_layout_add(parent);
+	layout = elm_layout_add(ad->naviframe);
 	elm_layout_file_set(layout, EDJ_ABSOLUTE_FILE, layout_file);
 	evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
 	evas_object_show(layout);
@@ -288,12 +293,11 @@ _create_view_layout(Evas_Object *parent, char *layout_file, char *index_style, c
 	}
 
 	// image click callback setting.
-	dlog_print(DLOG_INFO, LOG_TAG, " # create main layout image callback .. 1");
-	evas_object_smart_callback_add(img[0], "clicked", _main_image1_cb, layout);
+	dlog_print(DLOG_INFO, LOG_TAG, " # create main layout image callback ..");
+	evas_object_smart_callback_add(img[0], "clicked", _main_image1_cb, ad);
 	evas_object_smart_callback_add(img[1], "clicked", _main_image2_cb, layout);
 	evas_object_smart_callback_add(img[2], "clicked", _main_image3_cb, layout);
 	evas_object_smart_callback_add(img[3], "clicked", _main_image4_cb, layout);
-	dlog_print(DLOG_INFO, LOG_TAG, " # create main layout image callback .. 3");
 
 	/*Add resize callback for get a actual size of layout and main layout */
 	evas_object_event_callback_add(pd->page_layout[0], EVAS_CALLBACK_RESIZE, _layout_resize_cb, pd);
@@ -334,7 +338,7 @@ _create_view_layout(Evas_Object *parent, char *layout_file, char *index_style, c
 	evas_object_event_callback_add(index, EVAS_CALLBACK_MOUSE_UP, _on_index_mouse_up_cb, pd);
 
 
-	nf_it = elm_naviframe_item_push(parent, NULL, NULL, NULL, layout, NULL);
+	nf_it = elm_naviframe_item_push(ad->naviframe, NULL, NULL, NULL, layout, NULL);
 	elm_naviframe_item_title_enabled_set(nf_it, EINA_FALSE, EINA_FALSE);
 }
 
@@ -347,5 +351,5 @@ _create_main_layout_start(void *data, Evas_Object *obj, void *event_info)
 
 
 	// FALSE면 홀수 개 의 아이콘, TRUE면 짝수 개의 아이콘.
-	_create_view_layout(nf, MAIN_LAYOUT, "thumbnail", NULL, EINA_TRUE);
+	_create_view_layout(ad, MAIN_LAYOUT, "thumbnail", NULL, EINA_TRUE);
 }

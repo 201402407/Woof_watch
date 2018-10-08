@@ -20,7 +20,9 @@
 #define MAINIMAGE_DIR "/opt/usr/apps/org.example.woof/res/mainimages"
 #define ICON_DIR "/opt/usr/apps/org.example.woof/res/images"
 #define MAIN_LAYOUT "woof/index_thumbnail"
+#define POPUP_PROGRESSBAR "popup_progressbar"
 #define SPLASH_LAYOUT "woof/splash_layout"
+
 #define SUB_LAYOUT "sub_layout"
 
 typedef struct appdata{
@@ -37,5 +39,6 @@ typedef struct appdata{
 
 void _create_main_layout_start(void *data, Evas_Object *obj, void *event_info);
 void naviframe_pop_cb(void *data, Evas_Object *obj, void *event_info);
+void _popup_small_process_loading(void *data, Evas_Object *obj, void *event_info);
 
 #endif /* __woof_H__ */
