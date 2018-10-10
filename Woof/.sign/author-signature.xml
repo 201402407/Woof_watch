@@ -4,11 +4,11 @@
 <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"></SignatureMethod>
 <Reference URI="bin%2Fwoof">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>vLeYu7Rmg68Mq+GeOHDvzKjiG0dY2W4Sd5E0FRkhV8o=</DigestValue>
+<DigestValue>YlUjYmWiKWUM7uC6dWRcOWIXe2sBcZudOuIYxB6+2cY=</DigestValue>
 </Reference>
 <Reference URI="res%2Fedje%2Fwoof.edj">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>IUy+Mqi4YON0haZtpQlNAN8z4nULD0hvCJ0GB9/u3e4=</DigestValue>
+<DigestValue>ClD1AdsFnlrCLzuLvLBjpXoTuzUyMMQsRxU1XgiavnY=</DigestValue>
 </Reference>
 <Reference URI="res%2Fmainimages%2Fmainimage_1.png">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
@@ -26,13 +26,21 @@
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
 <DigestValue>RWukaAepR0cuNr6kejbBDEA8IFcadzDOpdf9NakOPfg=</DigestValue>
 </Reference>
+<Reference URI="res%2Fxml%2Faccessoryservices.xml">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>TUwtd+GWKNWiosV0JX+NECYX/ybB0KBE6V5CR/VaO1Q=</DigestValue>
+</Reference>
+<Reference URI="shared%2Fres%2Ffile.txt">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>GNW9w4eC4BGBb1LVaFhRFy3OpEMsmum/IncUlTEQWgU=</DigestValue>
+</Reference>
 <Reference URI="shared%2Fres%2Fwoof.png">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
 <DigestValue>1d0oEZHqPn+QzNzGIHwj9ODby6x9ggFs9uOsav6jPNs=</DigestValue>
 </Reference>
 <Reference URI="tizen-manifest.xml">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>luOUDiPTZgAUAhTfm+H8vzxNZwqfDB0z9AKVxkIXmMY=</DigestValue>
+<DigestValue>xCg8NzZAORQBnnUTHuLSf/0CpTKSdqu7XO4njpx6Sbk=</DigestValue>
 </Reference>
 <Reference URI="#prop">
 <Transforms>
@@ -43,11 +51,11 @@
 </Reference>
 </SignedInfo>
 <SignatureValue>
-gHi59L5y3qr3DzsY5i1TtygnS8DW4DazV51ulc/rsuJxmAvNZ3YnffkHT3eFuk01P9x+TlgSieUy
-iofz7PmqSIYNbISSRIzi+ak7Qbao+eE84Say5zpE/imfLx+03RgTzpyb6OwBVo260PBtazdAcWOh
-wI3YOkTUhb2bFOezlQT6HecVMLlha39WHIugMeFcLEss2wcT83zBoyGfypGLxkTMo1abGeRGpQP2
-WaplSsE6aCkeemrUc9eCTd8JPAUwPWIfyO6ipgKUvj9KXhwVCPw9PSXqElfwR+jDpAWQZSo7grP8
-eQKxjGOOtozVtFNKYLA1b/A4A7XOpbJ74lci3g==
+GL4pOus53tN2yiCccABgtzLTF3KluMlpmJn91G3Keoo5cRw6zkdkAWJrQDRat+R2mSY2++y8IldI
+fwhYANRgt3Itwx0TVcYBIIPlnvfYiD2xGH70OFv5vSVjzAoxta4qELs2P5y9eNZD4WsFtAJLkpBB
+GgwUiVXyS1De8/Q0ZPYFtrXJPdplsLP+pZvid+wZoVJzxVrCPtH2syihRKHGm8zIbNU5w3tYA3Gq
+LhHXCjX8qNAVMgvhO1FspXTEuvd3KCzp3NVw4kqDdVXirqAQaUMvHDNS6/athOw7bMU3J1v5H1zk
+bIIZFnDdNWjiXTpU1U4xBJK/U3zoTZNrgmNi1A==
 </SignatureValue>
 <KeyInfo>
 <X509Data>

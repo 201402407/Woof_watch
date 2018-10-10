@@ -1,5 +1,107 @@
 #include "woof.h"
 
+// 팝업을 위한.
+appdata_s *global_appdata;
+
+static void _reject_cb(void *data, Evas_Object *obj, void *event_info)
+{
+	if (!obj) return;
+	evas_object_del(data);
+	reject_file();
+}
+
+static void _accept_cb(void *data, Evas_Object *obj, void *event_info)
+{
+	if (!obj) return;
+	evas_object_del(data);
+	accept_file();
+}
+
+static void _popup_hide_cb(void *data, Evas_Object *obj, void *event_info)
+{
+	if (!obj) return;
+	elm_popup_dismiss(obj);
+}
+
+static void _popup_hide_finished_cb(void *data, Evas_Object *obj, void *event_info)
+{
+	if (!obj) return;
+	evas_object_del(obj);
+}
+
+static void popup_title_text_check_button(void *data, Evas_Object *obj, void *event_info)
+{
+	Evas_Object *popup;
+	Evas_Object *btn;
+	Evas_Object *icon;
+	Evas_Object *layout;
+	appdata_s *ad = data;
+	popup = elm_popup_add(global_appdata->naviframe);
+	elm_object_style_set(popup, "circle");
+	//uxt_popup_set_rotary_event_enabled(popup, EINA_TRUE);
+	evas_object_size_hint_weight_set(popup, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+	dlog_print(DLOG_INFO, LOG_TAG, "4");
+	eext_object_event_callback_add(popup, EEXT_CALLBACK_BACK, _popup_hide_cb, NULL);
+	dlog_print(DLOG_INFO, LOG_TAG, "5");
+	evas_object_smart_callback_add(popup, "dismissed", _popup_hide_finished_cb, NULL);
+	dlog_print(DLOG_INFO, LOG_TAG, "2");
+
+	layout = elm_layout_add(popup);
+	elm_layout_theme_set(layout, "layout", "popup", "content/circle/buttons2");
+	elm_object_part_text_set(layout, "elm.text.title", "");
+	dlog_print(DLOG_INFO, LOG_TAG, "3");
+
+	elm_object_part_text_set(layout, "elm.text", "Do you want to receive file?");
+	elm_object_content_set(popup, layout);
+	dlog_print(DLOG_INFO, LOG_TAG, "4");
+
+	btn = elm_button_add(popup);
+	elm_object_style_set(btn, "popup/circle/left");
+	evas_object_size_hint_weight_set(btn, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+	elm_object_part_content_set(popup, "button1", btn);
+	evas_object_smart_callback_add(btn, "clicked", _accept_cb, popup);
+	dlog_print(DLOG_INFO, LOG_TAG, "5");
+
+	icon = elm_image_add(btn);
+	elm_image_file_set(icon, "/opt/usr/apps/org.tizen.filetransferreceiver/res/images/tw_ic_popup_btn_check.png", NULL);
+	evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+	elm_object_part_content_set(btn, "elm.swallow.content", icon);
+	evas_object_show(icon);
+	dlog_print(DLOG_INFO, LOG_TAG, "6");
+
+	btn = elm_button_add(popup);
+	elm_object_style_set(btn, "popup/circle/right");
+	evas_object_size_hint_weight_set(btn, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+	elm_object_part_content_set(popup, "button2", btn);
+	evas_object_smart_callback_add(btn, "clicked", _reject_cb, popup);
+	dlog_print(DLOG_INFO, LOG_TAG, "7");
+
+	icon = elm_image_add(btn);
+	elm_image_file_set(icon, "/opt/usr/apps/org.tizen.filetransferreceiver/res/images/tw_ic_popup_btn_delete.png", NULL);
+	evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+	elm_object_part_content_set(btn, "elm.swallow.content", icon);
+	evas_object_show(icon);
+	dlog_print(DLOG_INFO, LOG_TAG, "8");
+
+	evas_object_show(popup);
+	dlog_print(DLOG_INFO, LOG_TAG, "9");
+	global_appdata->icon = icon;
+	global_appdata->layout = layout;
+	global_appdata->popup = popup;
+	global_appdata->btn = btn;
+	dlog_print(DLOG_INFO, LOG_TAG, "10");
+}
+
+void show_file_req_popup()
+{
+	popup_title_text_check_button(global_appdata->naviframe, NULL, NULL);
+	dlog_print(DLOG_INFO, LOG_TAG, "popup here ?");
+}
+void hide_file_req_popup()
+{
+	elm_popup_dismiss(global_appdata->popup);
+}
+
 static void
 win_delete_request_cb(void *data, Evas_Object *obj, void *event_info)
 {
@@ -22,6 +124,10 @@ naviframe_pop_cb(void *data, Evas_Object *obj, void *event_info) {
     elm_naviframe_item_pop(naviframe);
 }
 
+void
+_popup_message(char *string) {
+	show_message_popup(global_appdata->naviframe, string);
+}
 /* 두 번째 sub layout 생성 함수 */
 /*
 static void
@@ -89,12 +195,13 @@ static void start_splash(appdata_s *ad)
 	*/
 }
 
+/*
 void show_message_popup(Evas_Object* obj, char *message)
 {
 	//_pop_clicked_cb(obj, message);
 	dlog_print(DLOG_INFO, LOG_TAG, "device connected message pass");
 }
-
+*/
 
 static void
 create_base_gui(appdata_s *ad)
@@ -138,14 +245,14 @@ create_base_gui(appdata_s *ad)
 	dlog_print(DLOG_INFO, LOG_TAG, "# base layout setting success. ");
 	/* naviframe */
 	ad->naviframe = elm_naviframe_add(ad->layout);
-	dlog_print(DLOG_INFO, LOG_TAG, "# 1 ");
 	evas_object_size_hint_weight_set(ad->naviframe, EVAS_HINT_EXPAND,EVAS_HINT_EXPAND);
-	dlog_print(DLOG_INFO, LOG_TAG, "# 2 ");
 
-	dlog_print(DLOG_INFO, LOG_TAG, "# 3 ");
 	elm_object_part_content_set(ad->layout, "elm.swallow.content", ad->naviframe);
 	//evas_object_show(ad->naviframe);
 	dlog_print(DLOG_INFO, LOG_TAG, "# naviframe setting success. ");
+
+	// 팝업 설정
+	global_appdata = ad;
 	/* Splash */
 	start_splash(ad);
 
@@ -266,9 +373,8 @@ app_create(void *data)
 	   If this function returns true, the main loop of application starts
 	   If this function returns false, the application is terminated */
 	appdata_s *ad = data;
-
+	//initialize_sap();
 	create_base_gui(ad);
-
 	return true;
 }
 
